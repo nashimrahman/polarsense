@@ -1,0 +1,2 @@
+cloud_received_at,buoy_id,source_timestamp,water_temperature_c,air_temperature_c,humidity_percent,pressure_hpa,accel_x_g,accel_y_g,accel_z_g,gyro_x_dps,gyro_y_dps,gyro_z_dps,wind_speed_ms,wave_height_m,salinity_psu,ice_concentration_percent,current_speed_ms,latitude,longitude,battery_percent,sampling_mode,energy_mode,risk,buoy_motion_level,mode
+2026-09-06T12:13:46.795Z,POLAR-001,2026-09-06T12:00:00Z,-1.4,-5.2,82,1017.4,0.04,-0.02,1.01,1.2,0.8,1.5,11.4,2.3,33.1,62,0.84,-60.001,20.002,93.8,NORMAL,POWER_SAVING,LOW,LOW,NORMAL

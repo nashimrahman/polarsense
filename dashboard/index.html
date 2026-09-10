@@ -1,0 +1,5970 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>PolarSense AI — Mission Control</title>
+
+
+    <style>
+
+        :root {
+
+            --bg:
+                #071321;
+
+            --bg-soft:
+                #0b1c2e;
+
+            --panel:
+                #102a42;
+
+            --panel-2:
+                #13334e;
+
+            --panel-dark:
+                #091d30;
+
+            --border:
+                #285778;
+
+            --border-light:
+                #36739a;
+
+            --text:
+                #ffffff;
+
+            --text-soft:
+                #c5d9ea;
+
+            --text-muted:
+                #91aec4;
+
+            --blue:
+                #38aef5;
+
+            --blue-bright:
+                #59c7ff;
+
+            --cyan:
+                #55e0ff;
+
+            --green:
+                #38e08a;
+
+            --green-dark:
+                #123c2b;
+
+            --red:
+                #ff6675;
+
+            --red-dark:
+                #421f29;
+
+            --yellow:
+                #ffd166;
+
+            --yellow-dark:
+                #41351b;
+
+            --shadow:
+                0 12px 30px rgba(0, 0, 0, 0.25);
+
+        }
+
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            min-height: 100vh;
+
+            font-family:
+                Inter,
+                Segoe UI,
+                Arial,
+                sans-serif;
+
+            background:
+                linear-gradient(
+                    180deg,
+                    #061321 0%,
+                    #081827 50%,
+                    #061321 100%
+                );
+
+            color:
+                var(--text);
+
+            overflow-x: hidden;
+        }
+
+
+        button {
+            font-family: inherit;
+        }
+
+
+        /* =========================================================
+           TOP NAVIGATION
+        ========================================================= */
+
+        .topbar {
+
+            position: sticky;
+
+            top: 0;
+
+            z-index: 1000;
+
+            width: 100%;
+
+            min-height: 76px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: space-between;
+
+            gap: 25px;
+
+            padding:
+                12px 5vw;
+
+            background:
+                rgba(5, 18, 31, 0.96);
+
+            border-bottom:
+                1px solid #234762;
+
+            box-shadow:
+                0 8px 25px rgba(0, 0, 0, 0.3);
+
+            backdrop-filter:
+                blur(14px);
+        }
+
+
+        .brand {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 13px;
+
+            min-width: 235px;
+        }
+
+
+        .brand-logo {
+
+            width: 44px;
+
+            height: 44px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            border-radius: 12px;
+
+            background:
+                linear-gradient(
+                    135deg,
+                    #20b8ff,
+                    #4268ff
+                );
+
+            color: white;
+
+            font-size: 22px;
+
+            font-weight: 900;
+
+            box-shadow:
+                0 5px 20px rgba(45, 160, 255, 0.35);
+        }
+
+
+        .brand-name {
+
+            font-size: 19px;
+
+            font-weight: 900;
+
+            color:
+                #ffffff;
+        }
+
+
+        .brand-subtitle {
+
+            margin-top: 2px;
+
+            font-size: 9px;
+
+            letter-spacing: 1.4px;
+
+            color:
+                #8ba9c0;
+        }
+
+
+        .navigation {
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            gap: 5px;
+
+            flex: 1;
+        }
+
+
+        .nav-btn {
+
+            border: 1px solid transparent;
+
+            background:
+                transparent;
+
+            color:
+                #9db7ca;
+
+            padding:
+                10px 14px;
+
+            border-radius: 8px;
+
+            cursor: pointer;
+
+            font-size: 12px;
+
+            font-weight: 800;
+
+            transition:
+                0.2s ease;
+        }
+
+
+        .nav-btn:hover {
+
+            color:
+                #ffffff;
+
+            background:
+                #102b43;
+
+            border-color:
+                #275677;
+        }
+
+
+        .nav-btn.active {
+
+            color:
+                #ffffff;
+
+            background:
+                #15507b;
+
+            border-color:
+                #2d80b4;
+
+            box-shadow:
+                inset 0 0 15px rgba(40, 170, 240, 0.1);
+        }
+
+
+        .top-actions {
+
+            display: flex;
+
+            align-items: center;
+
+            gap: 8px;
+        }
+
+
+        .mode-btn {
+
+            padding:
+                10px 14px;
+
+            border-radius:
+                9px;
+
+            background:
+                #10283d;
+
+            cursor:
+                pointer;
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+        }
+
+
+        .normal-btn {
+
+            color:
+                var(--green);
+
+            border:
+                1px solid #299e68;
+
+            background:
+                #0d3023;
+        }
+
+
+        .normal-btn:hover {
+
+            background:
+                #154c35;
+        }
+
+
+        .storm-btn {
+
+            color:
+                var(--red);
+
+            border:
+                1px solid #b94150;
+
+            background:
+                #361b23;
+        }
+
+
+        .storm-btn:hover {
+
+            background:
+                #51232e;
+        }
+
+
+        .reset-btn {
+
+            color:
+                #ffffff;
+
+            border:
+                1px solid #47657c;
+
+            background:
+                #152d42;
+        }
+
+
+        .reset-btn:hover {
+
+            background:
+                #20415d;
+        }
+
+
+        /* =========================================================
+           PAGE
+        ========================================================= */
+
+        .page {
+
+            width:
+                min(1450px, 90%);
+
+            margin:
+                0 auto;
+
+            padding:
+                36px 0 70px;
+        }
+
+
+        /* =========================================================
+           HERO
+        ========================================================= */
+
+        .hero {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                330px;
+
+            gap:
+                30px;
+
+            align-items:
+                center;
+
+            margin-bottom:
+                30px;
+        }
+
+
+        .hero h1 {
+
+            margin:
+                0;
+
+            font-size:
+                clamp(32px, 4vw, 52px);
+
+            line-height:
+                1.05;
+
+            letter-spacing:
+                -1.8px;
+        }
+
+
+        .hero h1 span {
+
+            color:
+                var(--blue-bright);
+        }
+
+
+        .hero p {
+
+            max-width:
+                780px;
+
+            margin:
+                15px 0 0;
+
+            color:
+                var(--text-soft);
+
+            font-size:
+                15px;
+
+            line-height:
+                1.6;
+        }
+
+
+        .summary-card {
+
+            padding:
+                20px;
+
+            border:
+                1px solid #315f7f;
+
+            border-radius:
+                15px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #12334d,
+                    #0c2438
+                );
+
+            box-shadow:
+                var(--shadow);
+        }
+
+
+        .summary-title {
+
+            color:
+                #8eacc2;
+
+            font-size:
+                10px;
+
+            letter-spacing:
+                1.2px;
+
+            text-transform:
+                uppercase;
+
+            margin-bottom:
+                12px;
+        }
+
+
+        .summary-online {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            gap:
+                10px;
+
+            margin-bottom:
+                16px;
+        }
+
+
+        .online-light {
+
+            width:
+                13px;
+
+            height:
+                13px;
+
+            border-radius:
+                50%;
+
+            background:
+                var(--green);
+
+            box-shadow:
+                0 0 16px rgba(56, 224, 138, 0.8);
+        }
+
+
+        .online-text {
+
+            font-size:
+                18px;
+
+            font-weight:
+                900;
+
+            color:
+                #ffffff;
+        }
+
+
+        .mode-summary {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                10px;
+        }
+
+
+        .mode-state {
+
+            padding:
+                12px;
+
+            border-radius:
+                10px;
+
+            text-align:
+                center;
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+        }
+
+
+        .mode-state.normal {
+
+            background:
+                var(--green-dark);
+
+            color:
+                #55efa0;
+
+            border:
+                1px solid #299e68;
+        }
+
+
+        .mode-state.storm {
+
+            background:
+                var(--red-dark);
+
+            color:
+                #ff7c89;
+
+            border:
+                1px solid #b94150;
+        }
+
+
+        .mode-state.inactive {
+
+            opacity:
+                0.3;
+        }
+
+
+        /* =========================================================
+           SECTIONS
+        ========================================================= */
+
+        .page-section {
+
+            display:
+                none;
+
+            animation:
+                sectionIn 0.25s ease;
+        }
+
+
+        .page-section.active {
+
+            display:
+                block;
+        }
+
+
+        @keyframes sectionIn {
+
+            from {
+                opacity: 0;
+                transform: translateY(6px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+
+        .section-heading {
+
+            display:
+                flex;
+
+            align-items:
+                flex-end;
+
+            justify-content:
+                space-between;
+
+            gap:
+                15px;
+
+            margin:
+                34px 0 16px;
+        }
+
+
+        .section-heading h2 {
+
+            margin:
+                0;
+
+            font-size:
+                20px;
+
+            color:
+                #ffffff;
+        }
+
+
+        .section-heading p {
+
+            margin:
+                5px 0 0;
+
+            color:
+                #9eb8ca;
+
+            font-size:
+                12px;
+        }
+
+
+        .section-badge {
+
+            padding:
+                7px 11px;
+
+            border-radius:
+                7px;
+
+            background:
+                #123b5b;
+
+            border:
+                1px solid #2c739c;
+
+            color:
+                #63cbff;
+
+            font-size:
+                9px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                0.5px;
+        }
+
+
+        /* =========================================================
+           DATA FLOW
+        ========================================================= */
+
+        .flow-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(5, 1fr);
+
+            gap:
+                14px;
+        }
+
+
+        .flow-card {
+
+            position:
+                relative;
+
+            min-height:
+                130px;
+
+            padding:
+                20px 16px;
+
+            text-align:
+                center;
+
+            border:
+                1px solid #2b5875;
+
+            border-radius:
+                13px;
+
+            background:
+                #102b43;
+
+            box-shadow:
+                var(--shadow);
+
+            transition:
+                transform 0.2s,
+                border-color 0.2s;
+        }
+
+
+        .flow-card:hover {
+
+            transform:
+                translateY(-3px);
+
+            border-color:
+                #3c8bb7;
+        }
+
+
+        .flow-number {
+
+            width:
+                30px;
+
+            height:
+                30px;
+
+            margin:
+                0 auto 12px;
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                center;
+
+            border-radius:
+                50%;
+
+            background:
+                #238fdd;
+
+            color:
+                white;
+
+            font-size:
+                12px;
+
+            font-weight:
+                900;
+        }
+
+
+        .flow-card h3 {
+
+            margin:
+                0 0 8px;
+
+            color:
+                #ffffff;
+
+            font-size:
+                13px;
+        }
+
+
+        .flow-card p {
+
+            margin:
+                0;
+
+            color:
+                #a8c2d5;
+
+            font-size:
+                10px;
+
+            line-height:
+                1.5;
+        }
+
+
+        /* =========================================================
+           SENSOR GRID
+        ========================================================= */
+
+        .sensor-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap:
+                16px;
+        }
+
+
+        .sensor-card {
+
+            position:
+                relative;
+
+            min-height:
+                155px;
+
+            padding:
+                20px;
+
+            overflow:
+                hidden;
+
+            border:
+                1px solid #2b5b7d;
+
+            border-radius:
+                14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #12334d,
+                    #0d263b
+                );
+
+            box-shadow:
+                var(--shadow);
+
+            transition:
+                transform 0.2s,
+                border-color 0.2s;
+        }
+
+
+        .sensor-card:hover {
+
+            transform:
+                translateY(-2px);
+
+            border-color:
+                #3d8db8;
+        }
+
+
+        .sensor-card::after {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            width:
+                115px;
+
+            height:
+                115px;
+
+            right:
+                -48px;
+
+            bottom:
+                -52px;
+
+            border-radius:
+                50%;
+
+            background:
+                rgba(57, 177, 235, 0.12);
+        }
+
+
+        .sensor-label {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+            color:
+                #8db2ca;
+
+            font-size:
+                10px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                1px;
+
+            text-transform:
+                uppercase;
+        }
+
+
+        .sensor-value {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+            margin-top:
+                13px;
+
+            color:
+                #ffffff;
+
+            font-size:
+                30px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                -0.8px;
+        }
+
+
+        .sensor-unit {
+
+            color:
+                #62caff;
+
+            font-size:
+                12px;
+
+            margin-left:
+                4px;
+        }
+
+
+        .sensor-source {
+
+            position:
+                relative;
+
+            z-index:
+                2;
+
+            margin-top:
+                12px;
+
+            color:
+                #9db9cc;
+
+            font-size:
+                10px;
+        }
+
+
+        /* =========================================================
+           THREE MAIN PANELS
+        ========================================================= */
+
+        .three-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1.05fr
+                1fr
+                0.9fr;
+
+            gap:
+                16px;
+
+            margin-top:
+                16px;
+        }
+
+
+        .panel {
+
+            padding:
+                20px;
+
+            border:
+                1px solid #2a5775;
+
+            border-radius:
+                14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #102e47,
+                    #0c253a
+                );
+
+            box-shadow:
+                var(--shadow);
+        }
+
+
+        .panel-header {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+
+            margin-bottom:
+                18px;
+        }
+
+
+        .panel-header h3 {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                16px;
+        }
+
+
+        .panel-header span {
+
+            padding:
+                6px 9px;
+
+            border-radius:
+                7px;
+
+            background:
+                #173c5a;
+
+            border:
+                1px solid #31759e;
+
+            color:
+                #6dcaff;
+
+            font-size:
+                9px;
+
+            font-weight:
+                900;
+        }
+
+
+        /* =========================================================
+           IMU
+        ========================================================= */
+
+        .imu-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                11px;
+        }
+
+
+        .imu-box {
+
+            padding:
+                13px;
+
+            border:
+                1px solid #254e69;
+
+            border-radius:
+                9px;
+
+            background:
+                #091f32;
+        }
+
+
+        .imu-label {
+
+            color:
+                #7da3bb;
+
+            font-size:
+                9px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.8px;
+        }
+
+
+        .imu-value {
+
+            margin-top:
+                8px;
+
+            color:
+                #ffffff;
+
+            font-family:
+                Consolas,
+                monospace;
+
+            font-size:
+                13px;
+
+            font-weight:
+                700;
+        }
+
+
+        /* =========================================================
+           ENVIRONMENT
+        ========================================================= */
+
+        .environment-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                11px;
+        }
+
+
+        .environment-box {
+
+            padding:
+                13px;
+
+            border:
+                1px solid #254e69;
+
+            border-radius:
+                9px;
+
+            background:
+                #091f32;
+        }
+
+
+        .environment-label {
+
+            color:
+                #7da3bb;
+
+            font-size:
+                9px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.8px;
+        }
+
+
+        .environment-value {
+
+            margin-top:
+                8px;
+
+            color:
+                #ffffff;
+
+            font-size:
+                19px;
+
+            font-weight:
+                900;
+        }
+
+
+        .environment-unit {
+
+            color:
+                #5dc8ff;
+
+            font-size:
+                10px;
+        }
+
+
+        /* =========================================================
+           ALERTS
+        ========================================================= */
+
+        .alert-list {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                10px;
+        }
+
+
+        .alert {
+
+            padding:
+                13px;
+
+            border-radius:
+                9px;
+
+            border:
+                1px solid #2b5b78;
+
+            background:
+                #0a2033;
+        }
+
+
+        .alert-title {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                10px;
+
+            color:
+                #ffffff;
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+        }
+
+
+        .alert-message {
+
+            margin-top:
+                6px;
+
+            color:
+                #a7bfd1;
+
+            font-size:
+                10px;
+
+            line-height:
+                1.45;
+        }
+
+
+        .alert.normal {
+
+            border-color:
+                #2c7c59;
+
+            background:
+                #0d3023;
+        }
+
+
+        .alert.normal .alert-title {
+
+            color:
+                #5deba2;
+        }
+
+
+        .alert.warning {
+
+            border-color:
+                #90762e;
+
+            background:
+                #332b18;
+        }
+
+
+        .alert.warning .alert-title {
+
+            color:
+                #ffd86b;
+        }
+
+
+        .alert.danger {
+
+            border-color:
+                #9e3d4b;
+
+            background:
+                #351c24;
+        }
+
+
+        .alert.danger .alert-title {
+
+            color:
+                #ff7582;
+        }
+
+
+        /* =========================================================
+           GRAPHS
+        ========================================================= */
+
+        .graph-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                1fr 1fr;
+
+            gap:
+                16px;
+        }
+
+
+        .graph-card {
+
+            min-height:
+                340px;
+
+            padding:
+                18px;
+
+            border:
+                1px solid #2b5b7a;
+
+            border-radius:
+                14px;
+
+            background:
+                #102e47;
+
+            box-shadow:
+                var(--shadow);
+        }
+
+
+        .graph-header {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            margin-bottom:
+                15px;
+        }
+
+
+        .graph-header h3 {
+
+            margin:
+                0;
+
+            color:
+                #ffffff;
+
+            font-size:
+                14px;
+        }
+
+
+        .graph-header span {
+
+            color:
+                #62caff;
+
+            font-size:
+                10px;
+        }
+
+
+        canvas {
+
+            display:
+                block;
+
+            width:
+                100%;
+
+            height:
+                250px;
+
+            border-radius:
+                9px;
+
+            background:
+                #081d30;
+        }
+
+
+        /* =========================================================
+           ANALYTICS SUMMARY
+        ========================================================= */
+
+        .analytics-summary {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(4, 1fr);
+
+            gap:
+                14px;
+
+            margin-bottom:
+                16px;
+        }
+
+
+        .analytics-stat {
+
+            padding:
+                17px;
+
+            border:
+                1px solid #2b5a78;
+
+            border-radius:
+                12px;
+
+            background:
+                #102e47;
+        }
+
+
+        .analytics-stat-label {
+
+            color:
+                #8aabc1;
+
+            font-size:
+                9px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.8px;
+        }
+
+
+        .analytics-stat-value {
+
+            margin-top:
+                9px;
+
+            color:
+                #ffffff;
+
+            font-size:
+                22px;
+
+            font-weight:
+                900;
+        }
+
+
+        /* =========================================================
+           TRAJECTORY
+        ========================================================= */
+
+        .trajectory-layout {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                minmax(0, 1fr)
+                260px;
+
+            gap:
+                16px;
+        }
+
+
+        .trajectory-card {
+
+            padding:
+                18px;
+
+            border:
+                1px solid #2b5b7a;
+
+            border-radius:
+                14px;
+
+            background:
+                #102e47;
+
+            box-shadow:
+                var(--shadow);
+        }
+
+
+        .trajectory-map {
+
+            position:
+                relative;
+
+            height:
+                500px;
+
+            overflow:
+                hidden;
+
+            border-radius:
+                12px;
+
+            border:
+                1px solid #24516e;
+
+            background:
+                radial-gradient(
+                    circle at center,
+                    #123a54 0%,
+                    #09243a 48%,
+                    #061827 100%
+                );
+        }
+
+
+        .trajectory-map::before {
+
+            content:
+                "";
+
+            position:
+                absolute;
+
+            inset:
+                0;
+
+            background-image:
+                linear-gradient(
+                    rgba(88, 172, 207, 0.08) 1px,
+                    transparent 1px
+                ),
+                linear-gradient(
+                    90deg,
+                    rgba(88, 172, 207, 0.08) 1px,
+                    transparent 1px
+                );
+
+            background-size:
+                45px 45px;
+        }
+
+
+        .map-label {
+
+            position:
+                absolute;
+
+            z-index:
+                2;
+
+            color:
+                #6e9ab4;
+
+            font-size:
+                10px;
+
+            font-weight:
+                800;
+        }
+
+
+        .map-n {
+            top: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+
+        .map-s {
+            bottom: 12px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+
+        .map-w {
+            left: 12px;
+            top: 50%;
+        }
+
+
+        .map-e {
+            right: 12px;
+            top: 50%;
+        }
+
+
+        .trajectory-line {
+
+            position:
+                absolute;
+
+            z-index:
+                4;
+
+            left:
+                50%;
+
+            top:
+                50%;
+
+            width:
+                6px;
+
+            height:
+                6px;
+
+            border-radius:
+                50%;
+
+            background:
+                var(--cyan);
+
+            box-shadow:
+                0 0 16px rgba(85, 224, 255, 0.9);
+
+            transform:
+                translate(-50%, -50%);
+        }
+
+
+        .trajectory-start {
+
+            position:
+                absolute;
+
+            z-index:
+                3;
+
+            left:
+                50%;
+
+            top:
+                50%;
+
+            width:
+                11px;
+
+            height:
+                11px;
+
+            border:
+                2px solid #ffffff;
+
+            border-radius:
+                50%;
+
+            transform:
+                translate(-50%, -50%);
+        }
+
+
+        .trajectory-info {
+
+            display:
+                flex;
+
+            flex-direction:
+                column;
+
+            gap:
+                12px;
+        }
+
+
+        .info-box {
+
+            padding:
+                15px;
+
+            border:
+                1px solid #285573;
+
+            border-radius:
+                10px;
+
+            background:
+                #0a2135;
+        }
+
+
+        .info-label {
+
+            color:
+                #7fa3ba;
+
+            font-size:
+                9px;
+
+            text-transform:
+                uppercase;
+
+            letter-spacing:
+                0.8px;
+        }
+
+
+        .info-value {
+
+            margin-top:
+                8px;
+
+            color:
+                #ffffff;
+
+            font-size:
+                16px;
+
+            font-weight:
+                900;
+        }
+
+
+        /* =========================================================
+           ENVIRONMENT EXPLANATION
+        ========================================================= */
+
+        .logic-card {
+
+            padding:
+                22px;
+
+            border:
+                1px solid #2c5d7c;
+
+            border-radius:
+                14px;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    #102f48,
+                    #0b2337
+                );
+
+            box-shadow:
+                var(--shadow);
+        }
+
+
+        .logic-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(3, 1fr);
+
+            gap:
+                14px;
+        }
+
+
+        .logic-step {
+
+            padding:
+                17px;
+
+            border:
+                1px solid #285472;
+
+            border-radius:
+                10px;
+
+            background:
+                #0a2033;
+        }
+
+
+        .logic-step strong {
+
+            display:
+                block;
+
+            color:
+                #59c8ff;
+
+            font-size:
+                12px;
+
+            margin-bottom:
+                7px;
+        }
+
+
+        .logic-step p {
+
+            margin:
+                0;
+
+            color:
+                #abc2d3;
+
+            font-size:
+                10px;
+
+            line-height:
+                1.55;
+        }
+
+
+        /* =========================================================
+           FOOTER
+        ========================================================= */
+
+        .footer {
+
+            margin-top:
+                45px;
+
+            padding-top:
+                20px;
+
+            border-top:
+                1px solid #1c3b52;
+
+            color:
+                #7392a9;
+
+            text-align:
+                center;
+
+            font-size:
+                10px;
+
+            line-height:
+                1.6;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE
+        ========================================================= */
+
+        @media (max-width: 1150px) {
+
+            .topbar {
+
+                flex-wrap:
+                    wrap;
+
+                padding:
+                    12px 4%;
+            }
+
+
+            .navigation {
+
+                order:
+                    3;
+
+                width:
+                    100%;
+
+                overflow-x:
+                    auto;
+
+                justify-content:
+                    flex-start;
+            }
+
+
+            .sensor-grid {
+
+                grid-template-columns:
+                    repeat(2, 1fr);
+            }
+
+
+            .three-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .flow-grid {
+
+                grid-template-columns:
+                    repeat(3, 1fr);
+            }
+
+
+            .trajectory-layout {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+        }
+
+
+        @media (max-width: 750px) {
+
+            .page {
+
+                width:
+                    94%;
+
+                padding-top:
+                    25px;
+            }
+
+
+            .hero {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .hero h1 {
+
+                font-size:
+                    34px;
+            }
+
+
+            .flow-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .sensor-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .graph-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .analytics-summary {
+
+                grid-template-columns:
+                    1fr 1fr;
+            }
+
+
+            .logic-grid {
+
+                grid-template-columns:
+                    1fr;
+            }
+
+
+            .top-actions {
+
+                width:
+                    100%;
+
+                justify-content:
+                    flex-end;
+            }
+
+        }
+
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================================
+         TOP NAVIGATION
+    ========================================================== -->
+
+    <header class="topbar">
+
+
+        <div class="brand">
+
+            <div class="brand-logo">
+                P
+            </div>
+
+            <div>
+
+                <div class="brand-name">
+                    PolarSense AI
+                </div>
+
+                <div class="brand-subtitle">
+                    AUTONOMOUS OCEAN DIGITAL TWIN
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <nav class="navigation">
+
+            <button
+                class="nav-btn active"
+                data-section="overview"
+            >
+                Overview
+            </button>
+
+            <button
+                class="nav-btn"
+                data-section="sensors"
+            >
+                Live Sensors
+            </button>
+
+            <button
+                class="nav-btn"
+                data-section="environment"
+            >
+                Environment
+            </button>
+
+            <button
+                class="nav-btn"
+                data-section="analytics"
+            >
+                Analytics
+            </button>
+
+            <button
+                class="nav-btn"
+                data-section="trajectory"
+            >
+                Trajectory
+            </button>
+
+        </nav>
+
+
+        <div class="top-actions">
+
+            <button
+                id="normalBtn"
+                class="mode-btn normal-btn"
+            >
+                NORMAL
+            </button>
+
+            <button
+                id="stormBtn"
+                class="mode-btn storm-btn"
+            >
+                STORM
+            </button>
+
+            <button
+                id="resetBtn"
+                class="mode-btn reset-btn"
+            >
+                RESET
+            </button>
+
+        </div>
+
+
+    </header>
+
+
+    <main class="page">
+
+
+        <!-- =====================================================
+             HERO
+        ====================================================== -->
+
+        <section class="hero">
+
+
+            <div>
+
+                <h1>
+                    Autonomous
+                    <span>Ocean Observation</span>
+                </h1>
+
+                <p>
+                    Live circuit telemetry, backend-calculated
+                    polar environment, autonomous risk response,
+                    trajectory tracking and mission alerts.
+                </p>
+
+            </div>
+
+
+            <div class="summary-card">
+
+                <div class="summary-title">
+                    Mission Status
+                </div>
+
+
+                <div class="summary-online">
+
+                    <span
+                        id="onlineLight"
+                        class="online-light"
+                    ></span>
+
+                    <span
+                        id="onlineText"
+                        class="online-text"
+                    >
+                        ONLINE
+                    </span>
+
+                </div>
+
+
+                <div class="mode-summary">
+
+                    <div
+                        id="normalState"
+                        class="mode-state normal"
+                    >
+                        🟢 NORMAL
+                    </div>
+
+                    <div
+                        id="stormState"
+                        class="mode-state storm inactive"
+                    >
+                        🔴 STORM
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             OVERVIEW
+        ====================================================== -->
+
+        <section
+            id="overview"
+            class="page-section active"
+        >
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Autonomous Data Flow
+                    </h2>
+
+                    <p>
+                        How the digital twin transforms
+                        circuit measurements into ocean intelligence.
+                    </p>
+
+                </div>
+
+                <span class="section-badge">
+                    CLOSED LOOP
+                </span>
+
+            </div>
+
+
+            <div class="flow-grid">
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        1
+                    </div>
+
+                    <h3>
+                        Velxio Circuit
+                    </h3>
+
+                    <p>
+                        ESP32 + NTC + BME280 + MPU6050
+                    </p>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        2
+                    </div>
+
+                    <h3>
+                        MQTT Telemetry
+                    </h3>
+
+                    <p>
+                        Sensor packet reaches Node.js
+                    </p>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        3
+                    </div>
+
+                    <h3>
+                        Backend Engine
+                    </h3>
+
+                    <p>
+                        Validates data and calculates
+                        polar environment
+                    </p>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        4
+                    </div>
+
+                    <h3>
+                        Autonomy
+                    </h3>
+
+                    <p>
+                        Risk, sampling and energy response
+                    </p>
+
+                </div>
+
+
+                <div class="flow-card">
+
+                    <div class="flow-number">
+                        5
+                    </div>
+
+                    <h3>
+                        Dashboard
+                    </h3>
+
+                    <p>
+                        Visualization and mission alerts
+                    </p>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- SENSOR VALUES -->
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Live Sensor Data
+                    </h2>
+
+                    <p>
+                        Direct values received from the
+                        simulated embedded circuit.
+                    </p>
+
+                </div>
+
+                <span class="section-badge">
+                    REAL CIRCUIT VALUES
+                </span>
+
+            </div>
+
+
+            <div class="sensor-grid">
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Water Temperature
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="waterTemp">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            °C
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        NTC temperature sensor
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Air Temperature
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="airTemp">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            °C
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        BME280
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Humidity
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="humidity">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            %
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        BME280
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Atmospheric Pressure
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="pressure">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            hPa
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        BME280
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <!-- MAIN PANELS -->
+
+            <div class="three-grid">
+
+
+                <!-- IMU -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            IMU Motion
+                        </h3>
+
+                        <span>
+                            MPU6050
+                        </span>
+
+                    </div>
+
+
+                    <div class="imu-grid">
+
+
+                        <div class="imu-box">
+
+                            <div class="imu-label">
+                                Acceleration X
+                            </div>
+
+                            <div
+                                id="accelX"
+                                class="imu-value"
+                            >
+                                -- g
+                            </div>
+
+                        </div>
+
+
+                        <div class="imu-box">
+
+                            <div class="imu-label">
+                                Acceleration Y
+                            </div>
+
+                            <div
+                                id="accelY"
+                                class="imu-value"
+                            >
+                                -- g
+                            </div>
+
+                        </div>
+
+
+                        <div class="imu-box">
+
+                            <div class="imu-label">
+                                Acceleration Z
+                            </div>
+
+                            <div
+                                id="accelZ"
+                                class="imu-value"
+                            >
+                                -- g
+                            </div>
+
+                        </div>
+
+
+                        <div class="imu-box">
+
+                            <div class="imu-label">
+                                Gyro X
+                            </div>
+
+                            <div
+                                id="gyroX"
+                                class="imu-value"
+                            >
+                                -- °/s
+                            </div>
+
+                        </div>
+
+
+                        <div class="imu-box">
+
+                            <div class="imu-label">
+                                Gyro Y
+                            </div>
+
+                            <div
+                                id="gyroY"
+                                class="imu-value"
+                            >
+                                -- °/s
+                            </div>
+
+                        </div>
+
+
+                        <div class="imu-box">
+
+                            <div class="imu-label">
+                                Gyro Z
+                            </div>
+
+                            <div
+                                id="gyroZ"
+                                class="imu-value"
+                            >
+                                -- °/s
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- ENVIRONMENT -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Calculated Environment
+                        </h3>
+
+                        <span>
+                            BACKEND MODEL
+                        </span>
+
+                    </div>
+
+
+                    <div class="environment-grid">
+
+
+                        <div class="environment-box">
+
+                            <div class="environment-label">
+                                Wind
+                            </div>
+
+                            <div class="environment-value">
+                                <span id="wind">
+                                    --
+                                </span>
+
+                                <span class="environment-unit">
+                                    m/s
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="environment-box">
+
+                            <div class="environment-label">
+                                Wave Height
+                            </div>
+
+                            <div class="environment-value">
+                                <span id="waves">
+                                    --
+                                </span>
+
+                                <span class="environment-unit">
+                                    m
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="environment-box">
+
+                            <div class="environment-label">
+                                Salinity
+                            </div>
+
+                            <div class="environment-value">
+                                <span id="salinity">
+                                    --
+                                </span>
+
+                                <span class="environment-unit">
+                                    PSU
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="environment-box">
+
+                            <div class="environment-label">
+                                Sea Ice
+                            </div>
+
+                            <div class="environment-value">
+                                <span id="ice">
+                                    --
+                                </span>
+
+                                <span class="environment-unit">
+                                    %
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="environment-box">
+
+                            <div class="environment-label">
+                                Current
+                            </div>
+
+                            <div class="environment-value">
+                                <span id="current">
+                                    --
+                                </span>
+
+                                <span class="environment-unit">
+                                    m/s
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                        <div class="environment-box">
+
+                            <div class="environment-label">
+                                Battery
+                            </div>
+
+                            <div class="environment-value">
+                                <span id="battery">
+                                    --
+                                </span>
+
+                                <span class="environment-unit">
+                                    %
+                                </span>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                </div>
+
+
+                <!-- ALERTS -->
+
+                <div class="panel">
+
+                    <div class="panel-header">
+
+                        <h3>
+                            Alerts
+                        </h3>
+
+                        <span>
+                            AUTONOMOUS
+                        </span>
+
+                    </div>
+
+
+                    <div
+                        id="alertList"
+                        class="alert-list"
+                    >
+
+                        <div class="alert normal">
+
+                            <div class="alert-title">
+                                SYSTEM READY
+                            </div>
+
+                            <div class="alert-message">
+                                Waiting for live telemetry.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             LIVE SENSOR PAGE
+        ====================================================== -->
+
+        <section
+            id="sensors"
+            class="page-section"
+        >
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Live Sensor Telemetry
+                    </h2>
+
+                    <p>
+                        Values coming directly from the
+                        ESP32 sensor simulation.
+                    </p>
+
+                </div>
+
+                <span class="section-badge">
+                    MQTT → NODE.JS
+                </span>
+
+            </div>
+
+
+            <div class="sensor-grid">
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Water Temperature
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="waterTemp2">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            °C
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        NTC
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Air Temperature
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="airTemp2">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            °C
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        BME280
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Humidity
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="humidity2">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            %
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        BME280
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Pressure
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="pressure2">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            hPa
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        BME280
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Motion Measurements
+                    </h2>
+
+                    <p>
+                        Six-axis motion data from the MPU6050.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="panel">
+
+                <div class="imu-grid">
+
+
+                    <div class="imu-box">
+
+                        <div class="imu-label">
+                            Acceleration X
+                        </div>
+
+                        <div
+                            id="accelX2"
+                            class="imu-value"
+                        >
+                            -- g
+                        </div>
+
+                    </div>
+
+
+                    <div class="imu-box">
+
+                        <div class="imu-label">
+                            Acceleration Y
+                        </div>
+
+                        <div
+                            id="accelY2"
+                            class="imu-value"
+                        >
+                            -- g
+                        </div>
+
+                    </div>
+
+
+                    <div class="imu-box">
+
+                        <div class="imu-label">
+                            Acceleration Z
+                        </div>
+
+                        <div
+                            id="accelZ2"
+                            class="imu-value"
+                        >
+                            -- g
+                        </div>
+
+                    </div>
+
+
+                    <div class="imu-box">
+
+                        <div class="imu-label">
+                            Gyro X
+                        </div>
+
+                        <div
+                            id="gyroX2"
+                            class="imu-value"
+                        >
+                            -- °/s
+                        </div>
+
+                    </div>
+
+
+                    <div class="imu-box">
+
+                        <div class="imu-label">
+                            Gyro Y
+                        </div>
+
+                        <div
+                            id="gyroY2"
+                            class="imu-value"
+                        >
+                            -- °/s
+                        </div>
+
+                    </div>
+
+
+                    <div class="imu-box">
+
+                        <div class="imu-label">
+                            Gyro Z
+                        </div>
+
+                        <div
+                            id="gyroZ2"
+                            class="imu-value"
+                        >
+                            -- °/s
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             ENVIRONMENT PAGE
+        ====================================================== -->
+
+        <section
+            id="environment"
+            class="page-section"
+        >
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Polar Environment
+                    </h2>
+
+                    <p>
+                        Environmental values are calculated by
+                        the backend from live circuit telemetry.
+                    </p>
+
+                </div>
+
+                <span class="section-badge">
+                    SIMULATION MODEL
+                </span>
+
+            </div>
+
+
+            <div class="sensor-grid">
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Wind Speed
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="wind2">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            m/s
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        Backend calculated
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Wave Height
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="waves2">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            m
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        Backend calculated
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Salinity
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="salinity2">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            PSU
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        Backend calculated
+                    </div>
+
+                </div>
+
+
+                <div class="sensor-card">
+
+                    <div class="sensor-label">
+                        Sea Ice
+                    </div>
+
+                    <div class="sensor-value">
+                        <span id="ice2">
+                            --
+                        </span>
+
+                        <span class="sensor-unit">
+                            %
+                        </span>
+                    </div>
+
+                    <div class="sensor-source">
+                        Backend calculated
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Circuit → Environment Coupling
+                    </h2>
+
+                    <p>
+                        The backend interprets physical sensor
+                        changes and derives the digital-twin environment.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="logic-card">
+
+
+                <div class="logic-grid">
+
+
+                    <div class="logic-step">
+
+                        <strong>
+                            01 — Temperature
+                        </strong>
+
+                        <p>
+                            NTC water temperature influences
+                            the thermal state and ice model.
+                        </p>
+
+                    </div>
+
+
+                    <div class="logic-step">
+
+                        <strong>
+                            02 — Pressure
+                        </strong>
+
+                        <p>
+                            BME280 atmospheric pressure contributes
+                            to environmental stress calculations.
+                        </p>
+
+                    </div>
+
+
+                    <div class="logic-step">
+
+                        <strong>
+                            03 — Motion
+                        </strong>
+
+                        <p>
+                            MPU6050 acceleration and gyro values
+                            influence the simulated buoy disturbance
+                            and trajectory.
+                        </p>
+
+                    </div>
+
+
+                    <div class="logic-step">
+
+                        <strong>
+                            04 — Polar Rules
+                        </strong>
+
+                        <p>
+                            Backend rules keep the generated
+                            environment inside the defined
+                            polar operating envelope.
+                        </p>
+
+                    </div>
+
+
+                    <div class="logic-step">
+
+                        <strong>
+                            05 — Risk
+                        </strong>
+
+                        <p>
+                            Environmental severity and telemetry
+                            anomalies are converted into operational
+                            risk.
+                        </p>
+
+                    </div>
+
+
+                    <div class="logic-step">
+
+                        <strong>
+                            06 — Autonomy
+                        </strong>
+
+                        <p>
+                            Sampling and energy behavior adapt
+                            according to the current mission state.
+                        </p>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             ANALYTICS PAGE
+        ====================================================== -->
+
+        <section
+            id="analytics"
+            class="page-section"
+        >
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Live Analytics
+                    </h2>
+
+                    <p>
+                        Historical visual traces generated
+                        from the telemetry received by Node.js.
+                    </p>
+
+                </div>
+
+                <span class="section-badge">
+                    LIVE
+                </span>
+
+            </div>
+
+
+            <div class="analytics-summary">
+
+
+                <div class="analytics-stat">
+
+                    <div class="analytics-stat-label">
+                        Water Temperature
+                    </div>
+
+                    <div
+                        id="analyticsWater"
+                        class="analytics-stat-value"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+
+                <div class="analytics-stat">
+
+                    <div class="analytics-stat-label">
+                        Atmospheric Pressure
+                    </div>
+
+                    <div
+                        id="analyticsPressure"
+                        class="analytics-stat-value"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+
+                <div class="analytics-stat">
+
+                    <div class="analytics-stat-label">
+                        Wind
+                    </div>
+
+                    <div
+                        id="analyticsWind"
+                        class="analytics-stat-value"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+
+                <div class="analytics-stat">
+
+                    <div class="analytics-stat-label">
+                        Battery
+                    </div>
+
+                    <div
+                        id="analyticsBattery"
+                        class="analytics-stat-value"
+                    >
+                        --
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="graph-grid">
+
+
+                <div class="graph-card">
+
+                    <div class="graph-header">
+
+                        <h3>
+                            Water Temperature
+                        </h3>
+
+                        <span>
+                            °C
+                        </span>
+
+                    </div>
+
+                    <canvas
+                        id="temperatureChart"
+                    ></canvas>
+
+                </div>
+
+
+                <div class="graph-card">
+
+                    <div class="graph-header">
+
+                        <h3>
+                            Atmospheric Pressure
+                        </h3>
+
+                        <span>
+                            hPa
+                        </span>
+
+                    </div>
+
+                    <canvas
+                        id="pressureChart"
+                    ></canvas>
+
+                </div>
+
+
+                <div class="graph-card">
+
+                    <div class="graph-header">
+
+                        <h3>
+                            Wind & Wave
+                        </h3>
+
+                        <span>
+                            m/s + m
+                        </span>
+
+                    </div>
+
+                    <canvas
+                        id="windWaveChart"
+                    ></canvas>
+
+                </div>
+
+
+                <div class="graph-card">
+
+                    <div class="graph-header">
+
+                        <h3>
+                            Battery
+                        </h3>
+
+                        <span>
+                            %
+                        </span>
+
+                    </div>
+
+                    <canvas
+                        id="batteryChart"
+                    ></canvas>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             TRAJECTORY PAGE
+        ====================================================== -->
+
+        <section
+            id="trajectory"
+            class="page-section"
+        >
+
+
+            <div class="section-heading">
+
+                <div>
+
+                    <h2>
+                        Buoy Trajectory
+                    </h2>
+
+                    <p>
+                        Digital-twin movement driven by current,
+                        motion and environmental conditions.
+                    </p>
+
+                </div>
+
+                <span class="section-badge">
+                    LIVE POSITION
+                </span>
+
+            </div>
+
+
+            <div class="trajectory-layout">
+
+
+                <div class="trajectory-card">
+
+                    <div class="trajectory-map">
+
+                        <span class="map-label map-n">
+                            NORTH
+                        </span>
+
+                        <span class="map-label map-s">
+                            SOUTH
+                        </span>
+
+                        <span class="map-label map-w">
+                            WEST
+                        </span>
+
+                        <span class="map-label map-e">
+                            EAST
+                        </span>
+
+
+                        <div
+                            id="trajectoryStart"
+                            class="trajectory-start"
+                        ></div>
+
+
+                        <div
+                            id="trajectoryPoint"
+                            class="trajectory-line"
+                        ></div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="trajectory-info">
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Buoy ID
+                        </div>
+
+                        <div
+                            id="buoyId"
+                            class="info-value"
+                        >
+                            POLAR-001
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Latitude
+                        </div>
+
+                        <div
+                            id="latitude"
+                            class="info-value"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Longitude
+                        </div>
+
+                        <div
+                            id="longitude"
+                            class="info-value"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Drift
+                        </div>
+
+                        <div
+                            id="drift"
+                            class="info-value"
+                        >
+                            -- km
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Heading
+                        </div>
+
+                        <div
+                            id="heading"
+                            class="info-value"
+                        >
+                            --°
+                        </div>
+
+                    </div>
+
+
+                    <div class="info-box">
+
+                        <div class="info-label">
+                            Motion Level
+                        </div>
+
+                        <div
+                            id="motionLevel"
+                            class="info-value"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <!-- =====================================================
+             FOOTER
+        ====================================================== -->
+
+        <footer class="footer">
+
+            PolarSense AI —
+            Autonomous Polar Ocean Observation Digital Twin
+            <br>
+
+            ESP32 / Velxio →
+            MQTT →
+            Node.js →
+            Environment & Autonomy →
+            Dashboard
+
+        </footer>
+
+
+    </main>
+
+
+    <script>
+
+
+        /* =========================================================
+           POLARSENSE AI FRONTEND
+        ========================================================= */
+
+
+        const state = {
+
+            latest: null,
+
+            environment: null,
+
+            history: {
+
+                temperature: [],
+
+                pressure: [],
+
+                wind: [],
+
+                waves: [],
+
+                battery: []
+
+            },
+
+            maxPoints: 35
+
+        };
+
+
+        /* =========================================================
+           HELPERS
+        ========================================================= */
+
+
+        function numberValue(value, decimals = 2) {
+
+            const n = Number(value);
+
+            if (!Number.isFinite(n)) {
+
+                return "--";
+
+            }
+
+            return n.toFixed(decimals);
+        }
+
+
+        function rawNumber(value) {
+
+            const n = Number(value);
+
+            return Number.isFinite(n)
+                ? n
+                : null;
+        }
+
+
+        function getObject(data) {
+
+            if (!data || typeof data !== "object") {
+
+                return {};
+            }
+
+            return data;
+        }
+
+
+        function setText(id, value) {
+
+            const element =
+                document.getElementById(id);
+
+            if (element) {
+
+                element.textContent = value;
+
+            }
+
+        }
+
+
+        function setNumber(
+            id,
+            value,
+            decimals = 2
+        ) {
+
+            setText(
+                id,
+                numberValue(value, decimals)
+            );
+
+        }
+
+
+        /* =========================================================
+           NAVIGATION
+        ========================================================= */
+
+
+        document
+            .querySelectorAll(".nav-btn")
+            .forEach(button => {
+
+                button.addEventListener(
+                    "click",
+                    () => {
+
+                        const section =
+                            button.dataset.section;
+
+                        document
+                            .querySelectorAll(".nav-btn")
+                            .forEach(btn => {
+
+                                btn.classList.remove(
+                                    "active"
+                                );
+
+                            });
+
+                        document
+                            .querySelectorAll(".page-section")
+                            .forEach(page => {
+
+                                page.classList.remove(
+                                    "active"
+                                );
+
+                            });
+
+                        button.classList.add(
+                            "active"
+                        );
+
+                        const target =
+                            document.getElementById(
+                                section
+                            );
+
+                        if (target) {
+
+                            target.classList.add(
+                                "active"
+                            );
+
+                        }
+
+                        window.scrollTo({
+                            top: 0,
+                            behavior: "smooth"
+                        });
+
+                    }
+                );
+
+            });
+
+
+        /* =========================================================
+           API
+        ========================================================= */
+
+
+        async function fetchJSON(url) {
+
+            const response =
+                await fetch(
+                    url + "?t=" + Date.now()
+                );
+
+            if (!response.ok) {
+
+                throw new Error(
+                    "HTTP " + response.status
+                );
+
+            }
+
+            return await response.json();
+
+        }
+
+
+        /* =========================================================
+           LOAD LATEST TELEMETRY
+        ========================================================= */
+
+
+        async function loadLatest() {
+
+            try {
+
+                const result =
+                    await fetchJSON(
+                        "/api/telemetry/latest"
+                    );
+
+
+                const telemetry =
+                    result.telemetry ||
+                    result.latestTelemetry ||
+                    result.data ||
+                    result;
+
+
+                if (!telemetry) {
+
+                    return;
+
+                }
+
+
+                state.latest =
+                    telemetry;
+
+
+                updateSensors(
+                    telemetry
+                );
+
+
+                updateMotion(
+                    telemetry
+                );
+
+
+                updateTrajectory(
+                    telemetry
+                );
+
+
+                updateHistory(
+                    telemetry
+                );
+
+
+                setOnline(
+                    true
+                );
+
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Telemetry error:",
+                    error
+                );
+
+                setOnline(
+                    false
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           LOAD ENVIRONMENT
+        ========================================================= */
+
+
+        async function loadEnvironment() {
+
+            try {
+
+                const result =
+                    await fetchJSON(
+                        "/api/environment"
+                    );
+
+
+                const environment =
+                    result.environment ||
+                    result.data ||
+                    result;
+
+
+                if (!environment) {
+
+                    return;
+
+                }
+
+
+                state.environment =
+                    environment;
+
+
+                updateEnvironment(
+                    environment
+                );
+
+
+                updateAutonomy(
+                    environment
+                );
+
+
+                updateAlerts(
+                    environment,
+                    state.latest
+                );
+
+
+                setMode(
+                    environment.mode
+                );
+
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Environment error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           SENSOR DISPLAY
+        ========================================================= */
+
+
+        function updateSensors(data) {
+
+            const d =
+                getObject(data);
+
+
+            setNumber(
+                "waterTemp",
+                d.water_temperature_c
+            );
+
+            setNumber(
+                "waterTemp2",
+                d.water_temperature_c
+            );
+
+
+            setNumber(
+                "airTemp",
+                d.air_temperature_c
+            );
+
+            setNumber(
+                "airTemp2",
+                d.air_temperature_c
+            );
+
+
+            setNumber(
+                "humidity",
+                d.humidity_percent
+            );
+
+            setNumber(
+                "humidity2",
+                d.humidity_percent
+            );
+
+
+            setNumber(
+                "pressure",
+                d.pressure_hpa
+            );
+
+            setNumber(
+                "pressure2",
+                d.pressure_hpa
+            );
+
+
+            setNumber(
+                "analyticsWater",
+                d.water_temperature_c
+            );
+
+
+            setNumber(
+                "analyticsPressure",
+                d.pressure_hpa
+            );
+
+        }
+
+
+        /* =========================================================
+           IMU
+        ========================================================= */
+
+
+        function updateMotion(data) {
+
+            const d =
+                getObject(data);
+
+
+            const accelX =
+                numberValue(
+                    d.accel_x_g
+                );
+
+            const accelY =
+                numberValue(
+                    d.accel_y_g
+                );
+
+            const accelZ =
+                numberValue(
+                    d.accel_z_g
+                );
+
+            const gyroX =
+                numberValue(
+                    d.gyro_x_dps
+                );
+
+            const gyroY =
+                numberValue(
+                    d.gyro_y_dps
+                );
+
+            const gyroZ =
+                numberValue(
+                    d.gyro_z_dps
+                );
+
+
+            setText(
+                "accelX",
+                accelX + " g"
+            );
+
+            setText(
+                "accelY",
+                accelY + " g"
+            );
+
+            setText(
+                "accelZ",
+                accelZ + " g"
+            );
+
+
+            setText(
+                "gyroX",
+                gyroX + " °/s"
+            );
+
+            setText(
+                "gyroY",
+                gyroY + " °/s"
+            );
+
+            setText(
+                "gyroZ",
+                gyroZ + " °/s"
+            );
+
+
+            setText(
+                "accelX2",
+                accelX + " g"
+            );
+
+            setText(
+                "accelY2",
+                accelY + " g"
+            );
+
+            setText(
+                "accelZ2",
+                accelZ + " g"
+            );
+
+
+            setText(
+                "gyroX2",
+                gyroX + " °/s"
+            );
+
+            setText(
+                "gyroY2",
+                gyroY + " °/s"
+            );
+
+            setText(
+                "gyroZ2",
+                gyroZ + " °/s"
+            );
+
+        }
+
+
+        /* =========================================================
+           ENVIRONMENT
+        ========================================================= */
+
+
+        function updateEnvironment(data) {
+
+            const d =
+                getObject(data);
+
+
+            setNumber(
+                "wind",
+                d.wind_speed_ms
+            );
+
+            setNumber(
+                "wind2",
+                d.wind_speed_ms
+            );
+
+
+            setNumber(
+                "waves",
+                d.wave_height_m
+            );
+
+            setNumber(
+                "waves2",
+                d.wave_height_m
+            );
+
+
+            setNumber(
+                "salinity",
+                d.salinity_psu
+            );
+
+            setNumber(
+                "salinity2",
+                d.salinity_psu
+            );
+
+
+            setNumber(
+                "ice",
+                d.ice_concentration_percent
+            );
+
+            setNumber(
+                "ice2",
+                d.ice_concentration_percent
+            );
+
+
+            setNumber(
+                "current",
+                d.current_speed_ms
+            );
+
+
+            setNumber(
+                "battery",
+                d.battery_percent
+            );
+
+
+            setNumber(
+                "analyticsWind",
+                d.wind_speed_ms
+            );
+
+
+            setNumber(
+                "analyticsBattery",
+                d.battery_percent
+            );
+
+        }
+
+
+        /* =========================================================
+           AUTONOMY
+        ========================================================= */
+
+
+        function updateAutonomy(data) {
+
+            const d =
+                getObject(data);
+
+
+            if (d.mode) {
+
+                setMode(
+                    d.mode
+                );
+
+            }
+
+
+            updateAlerts(
+                d,
+                state.latest
+            );
+
+        }
+
+
+        /* =========================================================
+           MODE
+        ========================================================= */
+
+
+        function setMode(mode) {
+
+            const normal =
+                document.getElementById(
+                    "normalState"
+                );
+
+            const storm =
+                document.getElementById(
+                    "stormState"
+                );
+
+
+            const value =
+                String(
+                    mode || "NORMAL"
+                ).toUpperCase();
+
+
+            if (value === "STORM") {
+
+                normal.classList.add(
+                    "inactive"
+                );
+
+                storm.classList.remove(
+                    "inactive"
+                );
+
+            }
+            else {
+
+                storm.classList.add(
+                    "inactive"
+                );
+
+                normal.classList.remove(
+                    "inactive"
+                );
+
+            }
+
+        }
+
+
+        /* =========================================================
+           ONLINE
+        ========================================================= */
+
+
+        function setOnline(online) {
+
+            const light =
+                document.getElementById(
+                    "onlineLight"
+                );
+
+            const text =
+                document.getElementById(
+                    "onlineText"
+                );
+
+
+            if (online) {
+
+                light.style.background =
+                    "var(--green)";
+
+                light.style.boxShadow =
+                    "0 0 16px rgba(56,224,138,0.8)";
+
+                text.textContent =
+                    "ONLINE";
+
+            }
+            else {
+
+                light.style.background =
+                    "var(--red)";
+
+                light.style.boxShadow =
+                    "0 0 16px rgba(255,102,117,0.8)";
+
+                text.textContent =
+                    "OFFLINE";
+
+            }
+
+        }
+
+
+        /* =========================================================
+           ALERT ENGINE
+        ========================================================= */
+
+
+        function updateAlerts(
+            environment,
+            telemetry
+        ) {
+
+            const e =
+                getObject(environment);
+
+            const t =
+                getObject(telemetry);
+
+
+            const alerts = [];
+
+
+            const mode =
+                String(
+                    e.mode ||
+                    t.mode ||
+                    "NORMAL"
+                ).toUpperCase();
+
+
+            const risk =
+                String(
+                    e.risk ||
+                    t.risk ||
+                    "LOW"
+                ).toUpperCase();
+
+
+            const wind =
+                rawNumber(
+                    e.wind_speed_ms
+                );
+
+
+            const waves =
+                rawNumber(
+                    e.wave_height_m
+                );
+
+
+            const ice =
+                rawNumber(
+                    e.ice_concentration_percent
+                );
+
+
+            const battery =
+                rawNumber(
+                    e.battery_percent ??
+                    t.battery_percent
+                );
+
+
+            const motion =
+                rawNumber(
+                    e.motionIndex ??
+                    e.motion_index ??
+                    t.motion_index
+                );
+
+
+            /* STORM */
+
+            if (mode === "STORM") {
+
+                alerts.push({
+
+                    type:
+                        "danger",
+
+                    title:
+                        "STORM MODE ACTIVE",
+
+                    message:
+                        "Harsh polar conditions are being simulated. Sampling and operational load are increased."
+
+                });
+
+            }
+
+
+            /* RISK */
+
+            if (risk === "HIGH") {
+
+                alerts.push({
+
+                    type:
+                        "danger",
+
+                    title:
+                        "HIGH OPERATIONAL RISK",
+
+                    message:
+                        "Environmental and motion conditions exceed the normal operating envelope."
+
+                });
+
+            }
+            else if (risk === "MEDIUM") {
+
+                alerts.push({
+
+                    type:
+                        "warning",
+
+                    title:
+                        "MEDIUM RISK",
+
+                    message:
+                        "Environmental severity has increased. Autonomous monitoring remains active."
+
+                });
+
+            }
+
+
+            /* WIND */
+
+            if (
+                wind !== null &&
+                wind >= 18
+            ) {
+
+                alerts.push({
+
+                    type:
+                        "danger",
+
+                    title:
+                        "HIGH WIND",
+
+                    message:
+                        "Calculated wind speed is elevated for the simulated polar environment."
+
+                });
+
+            }
+
+
+            /* WAVES */
+
+            if (
+                waves !== null &&
+                waves >= 4
+            ) {
+
+                alerts.push({
+
+                    type:
+                        "warning",
+
+                    title:
+                        "ELEVATED WAVES",
+
+                    message:
+                        "Wave height is increasing and may produce stronger buoy motion."
+
+                });
+
+            }
+
+
+            /* ICE */
+
+            if (
+                ice !== null &&
+                ice >= 80
+            ) {
+
+                alerts.push({
+
+                    type:
+                        "warning",
+
+                    title:
+                        "HIGH SEA ICE",
+
+                    message:
+                        "Sea-ice concentration is high in the simulated operating region."
+
+                });
+
+            }
+
+
+            /* BATTERY */
+
+            if (
+                battery !== null &&
+                battery <= 25
+            ) {
+
+                alerts.push({
+
+                    type:
+                        "danger",
+
+                    title:
+                        "LOW BATTERY",
+
+                    message:
+                        "Battery state is approaching the energy protection threshold."
+
+                });
+
+            }
+
+
+            /* MOTION */
+
+            if (
+                motion !== null &&
+                motion >= 0.75
+            ) {
+
+                alerts.push({
+
+                    type:
+                        "warning",
+
+                    title:
+                        "HIGH BUOY MOTION",
+
+                    message:
+                        "IMU-derived motion index indicates increased platform disturbance."
+
+                });
+
+            }
+
+
+            /* DEFAULT */
+
+            if (
+                alerts.length === 0
+            ) {
+
+                alerts.push({
+
+                    type:
+                        "normal",
+
+                    title:
+                        "SYSTEM NOMINAL",
+
+                    message:
+                        "Current telemetry remains within the defined demonstration operating envelope."
+
+                });
+
+            }
+
+
+            renderAlerts(
+                alerts
+            );
+
+        }
+
+
+        function renderAlerts(alerts) {
+
+            const container =
+                document.getElementById(
+                    "alertList"
+                );
+
+
+            container.innerHTML =
+                "";
+
+
+            alerts
+                .slice(0, 5)
+                .forEach(alert => {
+
+                    const element =
+                        document.createElement(
+                            "div"
+                        );
+
+
+                    element.className =
+                        "alert " +
+                        alert.type;
+
+
+                    element.innerHTML = `
+
+                        <div class="alert-title">
+                            ${escapeHTML(alert.title)}
+                        </div>
+
+                        <div class="alert-message">
+                            ${escapeHTML(alert.message)}
+                        </div>
+
+                    `;
+
+
+                    container.appendChild(
+                        element
+                    );
+
+                });
+
+        }
+
+
+        function escapeHTML(value) {
+
+            return String(value)
+                .replaceAll("&", "&amp;")
+                .replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;")
+                .replaceAll('"', "&quot;")
+                .replaceAll("'", "&#039;");
+
+        }
+
+
+        /* =========================================================
+           TRAJECTORY
+        ========================================================= */
+
+
+        function updateTrajectory(data) {
+
+            const d =
+                getObject(data);
+
+
+            setText(
+                "buoyId",
+                d.buoy_id ||
+                d.id ||
+                "POLAR-001"
+            );
+
+
+            setText(
+                "latitude",
+                numberValue(
+                    d.latitude,
+                    5
+                )
+            );
+
+
+            setText(
+                "longitude",
+                numberValue(
+                    d.longitude,
+                    5
+                )
+            );
+
+
+            setText(
+                "drift",
+                numberValue(
+                    d.drift_km,
+                    3
+                ) + " km"
+            );
+
+
+            setText(
+                "heading",
+                numberValue(
+                    d.heading_deg,
+                    1
+                ) + "°"
+            );
+
+
+            setText(
+                "motionLevel",
+                d.buoy_motion_level ||
+                d.motion_level ||
+                "--"
+            );
+
+
+            moveTrajectoryPoint(
+                d
+            );
+
+        }
+
+
+        function moveTrajectoryPoint(data) {
+
+            const lat =
+                rawNumber(
+                    data.latitude
+                );
+
+
+            const lon =
+                rawNumber(
+                    data.longitude
+                );
+
+
+            const startLat =
+                rawNumber(
+                    data.startLatitude ??
+                    data.start_latitude ??
+                    -60
+                );
+
+
+            const startLon =
+                rawNumber(
+                    data.startLongitude ??
+                    data.start_longitude ??
+                    20
+                );
+
+
+            if (
+                lat === null ||
+                lon === null
+            ) {
+
+                return;
+
+            }
+
+
+            let x =
+                50 +
+                (
+                    lon -
+                    startLon
+                ) * 20;
+
+
+            let y =
+                50 -
+                (
+                    lat -
+                    startLat
+                ) * 20;
+
+
+            x =
+                Math.max(
+                    8,
+                    Math.min(
+                        92,
+                        x
+                    )
+                );
+
+
+            y =
+                Math.max(
+                    8,
+                    Math.min(
+                        92,
+                        y
+                    )
+                );
+
+
+            const point =
+                document.getElementById(
+                    "trajectoryPoint"
+                );
+
+
+            const start =
+                document.getElementById(
+                    "trajectoryStart"
+                );
+
+
+            point.style.left =
+                x + "%";
+
+            point.style.top =
+                y + "%";
+
+
+            start.style.left =
+                "50%";
+
+            start.style.top =
+                "50%";
+
+        }
+
+
+        /* =========================================================
+           HISTORY
+        ========================================================= */
+
+
+        function updateHistory(data) {
+
+            const d =
+                getObject(data);
+
+
+            const water =
+                rawNumber(
+                    d.water_temperature_c
+                );
+
+
+            const pressure =
+                rawNumber(
+                    d.pressure_hpa
+                );
+
+
+            const wind =
+                rawNumber(
+                    d.wind_speed_ms ??
+                    state.environment?.wind_speed_ms
+                );
+
+
+            const waves =
+                rawNumber(
+                    d.wave_height_m ??
+                    state.environment?.wave_height_m
+                );
+
+
+            const battery =
+                rawNumber(
+                    d.battery_percent ??
+                    state.environment?.battery_percent
+                );
+
+
+            addPoint(
+                state.history.temperature,
+                water
+            );
+
+
+            addPoint(
+                state.history.pressure,
+                pressure
+            );
+
+
+            addPoint(
+                state.history.wind,
+                wind
+            );
+
+
+            addPoint(
+                state.history.waves,
+                waves
+            );
+
+
+            addPoint(
+                state.history.battery,
+                battery
+            );
+
+
+            drawLineChart(
+                "temperatureChart",
+                state.history.temperature,
+                "Water Temperature"
+            );
+
+
+            drawLineChart(
+                "pressureChart",
+                state.history.pressure,
+                "Pressure"
+            );
+
+
+            drawDualChart(
+                "windWaveChart",
+                state.history.wind,
+                state.history.waves
+            );
+
+
+            drawLineChart(
+                "batteryChart",
+                state.history.battery,
+                "Battery"
+            );
+
+        }
+
+
+        function addPoint(
+            array,
+            value
+        ) {
+
+            if (
+                value === null ||
+                !Number.isFinite(value)
+            ) {
+
+                return;
+
+            }
+
+
+            array.push(
+                value
+            );
+
+
+            if (
+                array.length >
+                state.maxPoints
+            ) {
+
+                array.shift();
+
+            }
+
+        }
+
+
+        /* =========================================================
+           CANVAS GRAPH
+        ========================================================= */
+
+
+        function prepareCanvas(canvas) {
+
+            const rect =
+                canvas.getBoundingClientRect();
+
+
+            const dpr =
+                window.devicePixelRatio ||
+                1;
+
+
+            canvas.width =
+                Math.max(
+                    300,
+                    rect.width * dpr
+                );
+
+
+            canvas.height =
+                Math.max(
+                    220,
+                    rect.height * dpr
+                );
+
+
+            const ctx =
+                canvas.getContext(
+                    "2d"
+                );
+
+
+            ctx.setTransform(
+                dpr,
+                0,
+                0,
+                dpr,
+                0,
+                0
+            );
+
+
+            return {
+                ctx,
+                width:
+                    rect.width,
+                height:
+                    rect.height
+            };
+
+        }
+
+
+        function drawGrid(
+            ctx,
+            width,
+            height
+        ) {
+
+            ctx.clearRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+
+            ctx.fillStyle =
+                "#081d30";
+
+
+            ctx.fillRect(
+                0,
+                0,
+                width,
+                height
+            );
+
+
+            ctx.strokeStyle =
+                "rgba(91,150,180,0.14)";
+
+
+            ctx.lineWidth =
+                1;
+
+
+            for (
+                let i = 1;
+                i < 5;
+                i++
+            ) {
+
+                const y =
+                    (height / 5) * i;
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    0,
+                    y
+                );
+
+                ctx.lineTo(
+                    width,
+                    y
+                );
+
+                ctx.stroke();
+
+            }
+
+
+            for (
+                let i = 1;
+                i < 7;
+                i++
+            ) {
+
+                const x =
+                    (width / 7) * i;
+
+
+                ctx.beginPath();
+
+                ctx.moveTo(
+                    x,
+                    0
+                );
+
+                ctx.lineTo(
+                    x,
+                    height
+                );
+
+                ctx.stroke();
+
+            }
+
+        }
+
+
+        function drawLineChart(
+            id,
+            values,
+            label
+        ) {
+
+            const canvas =
+                document.getElementById(
+                    id
+                );
+
+
+            if (!canvas) {
+
+                return;
+
+            }
+
+
+            const setup =
+                prepareCanvas(
+                    canvas
+                );
+
+
+            const ctx =
+                setup.ctx;
+
+
+            const width =
+                setup.width;
+
+
+            const height =
+                setup.height;
+
+
+            drawGrid(
+                ctx,
+                width,
+                height
+            );
+
+
+            if (
+                values.length <
+                2
+            ) {
+
+                drawEmptyGraph(
+                    ctx,
+                    width,
+                    height
+                );
+
+                return;
+
+            }
+
+
+            const min =
+                Math.min(
+                    ...values
+                );
+
+
+            const max =
+                Math.max(
+                    ...values
+                );
+
+
+            const range =
+                Math.max(
+                    0.001,
+                    max - min
+                );
+
+
+            const pad =
+                28;
+
+
+            ctx.beginPath();
+
+
+            values.forEach(
+                (value, index) => {
+
+                    const x =
+                        pad +
+                        (
+                            index /
+                            (
+                                values.length - 1
+                            )
+                        ) *
+                        (
+                            width -
+                            pad * 2
+                        );
+
+
+                    const y =
+                        height -
+                        pad -
+                        (
+                            (
+                                value -
+                                min
+                            ) /
+                            range
+                        ) *
+                        (
+                            height -
+                            pad * 2
+                        );
+
+
+                    if (
+                        index === 0
+                    ) {
+
+                        ctx.moveTo(
+                            x,
+                            y
+                        );
+
+                    }
+                    else {
+
+                        ctx.lineTo(
+                            x,
+                            y
+                        );
+
+                    }
+
+                }
+            );
+
+
+            ctx.strokeStyle =
+                "#4dc5ff";
+
+
+            ctx.lineWidth =
+                3;
+
+
+            ctx.lineJoin =
+                "round";
+
+
+            ctx.lineCap =
+                "round";
+
+
+            ctx.stroke();
+
+
+            values.forEach(
+                (value, index) => {
+
+                    const x =
+                        pad +
+                        (
+                            index /
+                            (
+                                values.length - 1
+                            )
+                        ) *
+                        (
+                            width -
+                            pad * 2
+                        );
+
+
+                    const y =
+                        height -
+                        pad -
+                        (
+                            (
+                                value -
+                                min
+                            ) /
+                            range
+                        ) *
+                        (
+                            height -
+                            pad * 2
+                        );
+
+
+                    ctx.beginPath();
+
+                    ctx.arc(
+                        x,
+                        y,
+                        3,
+                        0,
+                        Math.PI * 2
+                    );
+
+                    ctx.fillStyle =
+                        "#ffffff";
+
+                    ctx.fill();
+
+                }
+            );
+
+
+            ctx.fillStyle =
+                "#8caec3";
+
+
+            ctx.font =
+                "10px Segoe UI";
+
+
+            ctx.fillText(
+                label,
+                12,
+                17
+            );
+
+
+            ctx.fillText(
+                max.toFixed(2),
+                10,
+                34
+            );
+
+
+            ctx.fillText(
+                min.toFixed(2),
+                10,
+                height - 10
+            );
+
+        }
+
+
+        function drawDualChart(
+            id,
+            valuesA,
+            valuesB
+        ) {
+
+            const canvas =
+                document.getElementById(
+                    id
+                );
+
+
+            if (!canvas) {
+
+                return;
+
+            }
+
+
+            const setup =
+                prepareCanvas(
+                    canvas
+                );
+
+
+            const ctx =
+                setup.ctx;
+
+
+            const width =
+                setup.width;
+
+
+            const height =
+                setup.height;
+
+
+            drawGrid(
+                ctx,
+                width,
+                height
+            );
+
+
+            if (
+                valuesA.length < 2 &&
+                valuesB.length < 2
+            ) {
+
+                drawEmptyGraph(
+                    ctx,
+                    width,
+                    height
+                );
+
+                return;
+
+            }
+
+
+            drawSeries(
+                ctx,
+                width,
+                height,
+                valuesA,
+                "#4dc5ff"
+            );
+
+
+            drawSeries(
+                ctx,
+                width,
+                height,
+                valuesB,
+                "#ffd166"
+            );
+
+
+            ctx.fillStyle =
+                "#4dc5ff";
+
+            ctx.font =
+                "10px Segoe UI";
+
+            ctx.fillText(
+                "WIND",
+                12,
+                18
+            );
+
+
+            ctx.fillStyle =
+                "#ffd166";
+
+            ctx.fillText(
+                "WAVE",
+                65,
+                18
+            );
+
+        }
+
+
+        function drawSeries(
+            ctx,
+            width,
+            height,
+            values,
+            color
+        ) {
+
+            if (
+                values.length <
+                2
+            ) {
+
+                return;
+
+            }
+
+
+            const min =
+                Math.min(
+                    ...values
+                );
+
+
+            const max =
+                Math.max(
+                    ...values
+                );
+
+
+            const range =
+                Math.max(
+                    0.001,
+                    max - min
+                );
+
+
+            const pad =
+                28;
+
+
+            ctx.beginPath();
+
+
+            values.forEach(
+                (value, index) => {
+
+                    const x =
+                        pad +
+                        (
+                            index /
+                            (
+                                values.length - 1
+                            )
+                        ) *
+                        (
+                            width -
+                            pad * 2
+                        );
+
+
+                    const y =
+                        height -
+                        pad -
+                        (
+                            (
+                                value -
+                                min
+                            ) /
+                            range
+                        ) *
+                        (
+                            height -
+                            pad * 2
+                        );
+
+
+                    if (
+                        index === 0
+                    ) {
+
+                        ctx.moveTo(
+                            x,
+                            y
+                        );
+
+                    }
+                    else {
+
+                        ctx.lineTo(
+                            x,
+                            y
+                        );
+
+                    }
+
+                }
+            );
+
+
+            ctx.strokeStyle =
+                color;
+
+            ctx.lineWidth =
+                3;
+
+            ctx.lineJoin =
+                "round";
+
+            ctx.lineCap =
+                "round";
+
+            ctx.stroke();
+
+        }
+
+
+        function drawEmptyGraph(
+            ctx,
+            width,
+            height
+        ) {
+
+            ctx.fillStyle =
+                "#7898ae";
+
+            ctx.font =
+                "12px Segoe UI";
+
+            ctx.textAlign =
+                "center";
+
+            ctx.fillText(
+                "Waiting for telemetry...",
+                width / 2,
+                height / 2
+            );
+
+            ctx.textAlign =
+                "left";
+
+        }
+
+
+        /* =========================================================
+           MODE BUTTONS
+        ========================================================= */
+
+
+        async function sendMode(mode) {
+
+            try {
+
+                let response;
+
+
+                if (
+                    mode === "NORMAL"
+                ) {
+
+                    response =
+                        await fetch(
+                            "/api/mode/normal",
+                            {
+                                method:
+                                    "POST"
+                            }
+                        );
+
+                }
+                else {
+
+                    response =
+                        await fetch(
+                            "/api/mode/storm",
+                            {
+                                method:
+                                    "POST"
+                            }
+                        );
+
+                }
+
+
+                if (!response.ok) {
+
+                    throw new Error(
+                        "Mode request failed"
+                    );
+
+                }
+
+
+                await loadLatest();
+
+                await loadEnvironment();
+
+            }
+            catch (error) {
+
+                console.error(
+                    "Mode error:",
+                    error
+                );
+
+            }
+
+        }
+
+
+        document
+            .getElementById(
+                "normalBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    sendMode(
+                        "NORMAL"
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "stormBtn"
+            )
+            .addEventListener(
+                "click",
+                () => {
+
+                    sendMode(
+                        "STORM"
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "resetBtn"
+            )
+            .addEventListener(
+                "click",
+                async () => {
+
+                    try {
+
+                        await fetch(
+                            "/api/reset",
+                            {
+                                method:
+                                    "POST"
+                            }
+                        );
+
+
+                        state.history = {
+
+                            temperature: [],
+
+                            pressure: [],
+
+                            wind: [],
+
+                            waves: [],
+
+                            battery: []
+
+                        };
+
+
+                        await loadLatest();
+
+                        await loadEnvironment();
+
+                    }
+                    catch (error) {
+
+                        console.error(
+                            "Reset error:",
+                            error
+                        );
+
+                    }
+
+                }
+            );
+
+
+        /* =========================================================
+           WINDOW RESIZE
+        ========================================================= */
+
+
+        window.addEventListener(
+            "resize",
+            () => {
+
+                drawLineChart(
+                    "temperatureChart",
+                    state.history.temperature,
+                    "Water Temperature"
+                );
+
+
+                drawLineChart(
+                    "pressureChart",
+                    state.history.pressure,
+                    "Pressure"
+                );
+
+
+                drawDualChart(
+                    "windWaveChart",
+                    state.history.wind,
+                    state.history.waves
+                );
+
+
+                drawLineChart(
+                    "batteryChart",
+                    state.history.battery,
+                    "Battery"
+                );
+
+            }
+        );
+
+
+        /* =========================================================
+           INITIALIZATION
+        ========================================================= */
+
+
+        async function initialize() {
+
+            drawLineChart(
+                "temperatureChart",
+                [],
+                "Water Temperature"
+            );
+
+
+            drawLineChart(
+                "pressureChart",
+                [],
+                "Pressure"
+            );
+
+
+            drawDualChart(
+                "windWaveChart",
+                [],
+                []
+            );
+
+
+            drawLineChart(
+                "batteryChart",
+                [],
+                "Battery"
+            );
+
+
+            await loadLatest();
+
+            await loadEnvironment();
+
+        }
+
+
+        initialize();
+
+
+        /* =========================================================
+           LIVE UPDATE LOOP
+        ========================================================= */
+
+        setInterval(
+            async () => {
+
+                await loadLatest();
+
+                await loadEnvironment();
+
+            },
+            3000
+        );
+
+
+    </script>
+
+
+</body>
+
+</html>
