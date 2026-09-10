@@ -3890,11 +3890,13 @@
         ========================================================= */
 
 
+        const API_BASE = "https://polarsense-backend.onrender.com";
+
         async function fetchJSON(url) {
 
             const response =
                 await fetch(
-                    url + "?t=" + Date.now()
+                    API_BASE + url + "?t=" + Date.now()
                 );
 
             if (!response.ok) {
@@ -5729,7 +5731,7 @@
 
                     response =
                         await fetch(
-                            "/api/mode/normal",
+                            API_BASE + "/api/mode/normal",
                             {
                                 method:
                                     "POST"
@@ -5741,7 +5743,7 @@
 
                     response =
                         await fetch(
-                            "/api/mode/storm",
+                            API_BASE + "/api/mode/storm",
                             {
                                 method:
                                     "POST"
@@ -5820,7 +5822,7 @@
                     try {
 
                         await fetch(
-                            "/api/reset",
+                            API_BASE + "/api/reset",
                             {
                                 method:
                                     "POST"
